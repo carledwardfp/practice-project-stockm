@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/practice-project-stockm/static/css/main.daf83b51.chunk.css",
+    "main.js": "/practice-project-stockm/static/js/main.6e44839a.chunk.js",
+    "main.js.map": "/practice-project-stockm/static/js/main.6e44839a.chunk.js.map",
+    "runtime-main.js": "/practice-project-stockm/static/js/runtime-main.62b77792.js",
+    "runtime-main.js.map": "/practice-project-stockm/static/js/runtime-main.62b77792.js.map",
+    "static/js/2.05c37798.chunk.js": "/practice-project-stockm/static/js/2.05c37798.chunk.js",
+    "static/js/2.05c37798.chunk.js.map": "/practice-project-stockm/static/js/2.05c37798.chunk.js.map",
+    "index.html": "/practice-project-stockm/index.html",
+    "static/css/main.daf83b51.chunk.css.map": "/practice-project-stockm/static/css/main.daf83b51.chunk.css.map",
+    "static/js/2.05c37798.chunk.js.LICENSE.txt": "/practice-project-stockm/static/js/2.05c37798.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.62b77792.js",
+    "static/js/2.05c37798.chunk.js",
+    "static/css/main.daf83b51.chunk.css",
+    "static/js/main.6e44839a.chunk.js"
+  ]
+}
