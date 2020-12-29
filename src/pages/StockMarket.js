@@ -22,7 +22,8 @@ function StockMarket() {
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${key}&apikey=${API_KEY}`
+        let keyword = key
+        const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${API_KEY}`
 
         getAllData(url)
 
