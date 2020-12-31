@@ -6,14 +6,14 @@ const API_KEY = '76TCXLOAUCLBZQ78'
 
 function StockMarket() {
     const [key, setKey] = useState('')
-    const [stockData, getStockData] = useState({})
+    const [stockData, setStockData] = useState({})
     const [selectValue, setSelectValue] = useState('')
 
     const getAllData = (url) => {
         axios.get(url)
         .then(response => {
             const allData = response.data
-            getStockData(allData)
+            setStockData(allData)
         })
         .catch(err => {return 'Error: ' + err})
     }
@@ -29,8 +29,6 @@ function StockMarket() {
 
         setKey('')
     }
-
-    const data = stockData
 
     const handleSelect = e => {setSelectValue(e.target.value)}
 
@@ -51,14 +49,14 @@ function StockMarket() {
                     type='submit'
                 ><i class="fas fa-search-dollar" /></button>
             </form>
-            {data.bestMatches ? (
+            {stockData.bestMatches ? (
                 <select
                     style={{height: '50px', width: '550px', fontSize: '1.5em'}}
                     value={selectValue}
                     onChange={handleSelect}
                 >
                     <option value='0' disabled selected>Select company</option>
-                    {data.bestMatches.map( option => (
+                    {stockData.bestMatches.map( option => (
                         <option
                             key={option['1. symbol']}
                             value={option['1. symbol']}
