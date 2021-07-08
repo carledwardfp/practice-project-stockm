@@ -1,81 +1,69 @@
-import React, { useState } from 'react'
-import StockChart from '../components/StockChart'
-import axios from 'axios'
+import React, { useState } from "react";
+import axios from "axios";
 
-const API_KEY = '76TCXLOAUCLBZQ78'
+import Select from "../components/elements/Select";
+import StockChart from "../components/StockChart";
 
-function StockMarket() {
-    const [key, setKey] = useState('')
-    const [stockData, setStockData] = useState({})
-    const [selectValue, setSelectValue] = useState('')
+const API_KEY = process.env.REACT_APP_API_KEY;
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-    const getAllData = (url) => {
-        axios.get(url)
-        .then(response => {
-            const allData = response.data
-            setStockData(allData)
-        })
-        .catch(err => {return 'Error: ' + err})
-    }
+const StockMarket = () => {
+  const [key, setKey] = useState("");
+  const [stockData, setStockData] = useState({});
+  const [selectValue, setSelectValue] = useState("");
 
-    const handleChange = e => {setKey(e.target.value)}
-    
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        let keyword = key
-        const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${API_KEY}`
+  const getAllData = async (url) => {
+    let response = await axios.get(url);
+    let data = response.data;
+    setStockData(data);
+  };
 
-        getAllData(url)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const url = `${REACT_APP_API_BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${key}&apikey=${API_KEY}`;
 
-        setKey('')
-    }
+    await getAllData(url);
+    setKey("");
+  };
 
-    const handleSelect = e => {setSelectValue(e.target.value)}
+  const handleChange = (e) => {
+    setKey(e.target.value);
+  };
 
-    // console.log(selectValue)
+  const handleSelect = (e) => {
+    setSelectValue(e.target.value);
+  };
 
-    return (
-        <div className='stockmarket'>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Enter company name"
-                    style={{width: '500px', height: '50px', fontSize: '2em'}}
-                    value={key}
-                    onChange={handleChange}
-                />
-                <button
-                    style={{height: '50px', width: '50px', fontSize: '2em'}}
-                    type='submit'
-                ><i class="fas fa-search-dollar" /></button>
-            </form>
-            {stockData.bestMatches ? (
-                <select
-                    style={{height: '50px', width: '550px', fontSize: '1.5em'}}
-                    value={selectValue}
-                    onChange={handleSelect}
-                >
-                    <option value='0' disabled selected>Select company</option>
-                    {stockData.bestMatches.map( option => (
-                        <option
-                            key={option['1. symbol']}
-                            value={option['1. symbol']}
-                        >
-                            {option['2. name']} ({option['1. symbol']})
-                        </option>
-                    ))}
-                </select>
-            ) : (
-                <select
-                    style={{height: '50px', width: '550px', fontSize: '2em'}}
-                >
-                    <option value='0' disabled selected>No company selected</option> 
-                </select>
-            )}
-            
-            <StockChart symbol={selectValue}/>
-        </div>
-    )
-}
+  return (
+    <div className="stockmarket">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter company name"
+          style={{ width: "500px", height: "50px", fontSize: "2em" }}
+          value={key}
+          onChange={handleChange}
+        />
+        <button
+          style={{ height: "50px", width: "50px", fontSize: "2em" }}
+          type="submit"
+        >
+          <i class="fas fa-search-dollar" />
+        </button>
+      </form>
+      {stockData.bestMatches ? (
+        <Select
+          value={selectValue}
+          onChange={handleSelect}
+          data={stockData}
+          label="Select company"
+        />
+      ) : (
+        <Select label="Select company" />
+      )}
+      <StockChart symbol={selectValue} apiKey={API_KEY} />
+    </div>
+  );
+};
 
-export default StockMarket
+export default StockMarket;
