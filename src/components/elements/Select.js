@@ -7,12 +7,12 @@ const Select = ({ value, onChange, data, label }) => {
       value={value}
       onChange={onChange}
     >
-      <option value="0" disabled selected>
+      <option value="0" disabled>
         {label}
       </option>
-      {data?.bestMatches.map((option) => (
+      {data?.map((option) => (
         <option key={option["1. symbol"]} value={option["1. symbol"]}>
-          {option["2. name"]} ({option["1. symbol"]})
+          [{option["1. symbol"]}] {option["2. name"]}
         </option>
       )) || null}
     </select>

@@ -11,27 +11,37 @@ const StockMarket = () => {
   const [key, setKey] = useState("");
   const [stockData, setStockData] = useState({});
   const [selectValue, setSelectValue] = useState("");
+  const [company, setCompany] = useState({});
 
   const getAllData = async (url) => {
     let response = await axios.get(url);
     let data = response.data;
-    setStockData(data);
+    return data;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `${REACT_APP_API_BASE_URL}/query?function=SYMBOL_SEARCH&keywords=${key}&apikey=${API_KEY}`;
-
-    await getAllData(url);
-    setKey("");
+    let data = await getAllData(url);
+    if (data) {
+      setStockData(data);
+      setKey("");
+    }
   };
 
-  const handleChange = (e) => {
-    setKey(e.target.value);
+  const getData = async (symbol) => {
+    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&outputsize=compact&apikey=${API_KEY}`;
+
+    let response = await axios.get(url);
+    let data = response.data;
+    return data;
   };
 
-  const handleSelect = (e) => {
-    setSelectValue(e.target.value);
+  const handleSelect = async (e) => {
+    let symbol = e.target.value;
+    setSelectValue(symbol);
+    let company = await getData(symbol);
+    setCompany(company);
   };
 
   return (
@@ -42,26 +52,26 @@ const StockMarket = () => {
           placeholder="Enter company name"
           style={{ width: "500px", height: "50px", fontSize: "2em" }}
           value={key}
-          onChange={handleChange}
+          onChange={(e) => setKey(e.target.value)}
         />
         <button
           style={{ height: "50px", width: "50px", fontSize: "2em" }}
           type="submit"
         >
-          <i class="fas fa-search-dollar" />
+          <i className="fas fa-search-dollar" />
         </button>
       </form>
-      {stockData.bestMatches ? (
+      {stockData?.bestMatches ? (
         <Select
           value={selectValue}
           onChange={handleSelect}
-          data={stockData}
+          data={stockData?.bestMatches}
           label="Select company"
         />
       ) : (
-        <Select label="Select company" />
+        <Select label="No company selected" />
       )}
-      <StockChart symbol={selectValue} apiKey={API_KEY} />
+      <StockChart data={company} />
     </div>
   );
 };

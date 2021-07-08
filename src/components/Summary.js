@@ -16,7 +16,7 @@ const Summary = (props) => {
           {
             <CountUp
               start={0}
-              end={latest ? latest : 0}
+              end={latest ? parseInt(latest) : 0}
               duration={1.5}
               separator=","
             />

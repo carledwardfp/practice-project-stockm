@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
-import axios from "axios";
 
-const StockChart = ({ symbol, apiKey }) => {
-  const [data, setData] = useState({});
-
-  const getData = async () => {
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&outputsize=compact&apikey=${apiKey}`;
-
-    let response = await axios.get(url);
-    let allData = response.data;
-    setData(allData);
-  };
-
-  useEffect(() => {
-    getData();
-  }, [symbol]);
-
+const StockChart = ({ data }) => {
   const fData = { ...data };
   const fTitle = { ...fData["Meta Data"] };
   const title = fTitle["2. Symbol"];
